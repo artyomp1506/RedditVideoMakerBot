@@ -17,7 +17,9 @@ def get(request):
 def update(request):
     config = ''
     for key in list(request.data.keys()):
-       config += f'{key.upper()}="{request.data[key]}"{linesep}' 
+            template = f'"{request.data[key]}"' if type(request.data[key]) is str or type(
+            request.data[key]) is bool else f'{request.data[key]}'
+            config += f'{key.upper()}={template}{linesep}' 
     with open('../../.env','w') as file:
         file.write(config)
     return Response({'Saved':'Sucsessfully'})
